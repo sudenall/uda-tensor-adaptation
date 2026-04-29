@@ -1,0 +1,5 @@
+Group,Method,Representation,DA Method,MMD Before,MMD After,Acc Before,Acc After,Δ Acc,Key Finding
+Baseline,2D-PCA,Tensor,None,0.0177,,0.5833,,,No adaptation applied
+Vector DA,PCA + CORAL,Vector,CORAL,0.0529,0.0189,0.6352,0.5704,-0.0648,"Alignment improves, but classification performance drops"
+Tensor DA,2D-PCA + CORAL,Tensor,CORAL,0.0177,0.0124,0.5833,0.5796,-0.0037,"Strong alignment, but discriminative structure is weakened"
+Tensor DA,UDA-TFL-inspired,Tensor,MMD + Class-aware,0.0177,0.0146,0.5833,0.5944,0.0111,BEST: optimal balance between domain alignment and class separability

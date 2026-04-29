@@ -1,0 +1,7 @@
+pip freeze > requirements.txt
+scikit learn
+numpy
+scipy
+matplotlib
+pandas
+seaborn

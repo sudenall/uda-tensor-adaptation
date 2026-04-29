@@ -1,0 +1,14 @@
+Branch,Method,n_components,k,MMD Before,MMD After,Acc Before,Acc After,Δ Acc (After - Before),Precision Before,Precision After,Recall Before,Recall After,Note
+Branch1,PCA + CORAL (vector),10,1.0,0.1727,0.0398,0.5407,0.3852,-0.15549999999999997,,,,,Too aggressive compression
+Branch1,PCA + CORAL (vector),20,1.0,0.0914,0.0265,0.6185,0.5111,-0.10740000000000005,,,,,Reduced information loss
+Branch1,PCA + CORAL (vector),30,1.0,0.063,0.0211,0.6241,0.5704,-0.05369999999999997,,,,,Good trade-off
+Branch1,PCA + CORAL (vector),40,1.0,0.0529,0.0189,0.6352,0.5704,-0.06479999999999997,0.7294,0.595,0.6352,0.5703,Best Branch1 baseline
+Branch1,PCA + CORAL (vector),50,1.0,0.0471,0.0179,0.6278,0.5667,-0.06110000000000004,,,,,Slight overfitting
+Branch1,"KNN (vector, PCA=40)",40,1.0,0.0529,0.0189,0.6352,0.5704,-0.06479999999999997,,,,,Best k
+Branch1,"KNN (vector, PCA=40)",40,3.0,0.0529,0.0189,0.5722,0.5444,-0.027800000000000047,,,,,Medium k
+Branch1,"KNN (vector, PCA=40)",40,9.0,0.0529,0.0189,0.5648,0.5222,-0.04259999999999997,,,,,Over-smoothing
+Branch1,Logistic Regression (vector),40,,,,0.4019,0.4778,0.07590000000000002,,,,,Linear model benefits from adaptation
+Branch1,SVM (vector),40,,,,0.5519,0.55,-0.0018999999999999018,,,,,"Stable, limited gain"
+Branch2,2D-PCA (tensor baseline),4,3.0,0.0177,,0.5833,,,,,,,Tensor-aware baseline
+Branch2,2D-PCA + CORAL (tensor),4,3.0,0.0177,0.0124,0.5833,0.5796,-0.0037000000000000366,,,,,Strong alignment but degraded discriminative structure
+Branch2,UDA-TFL-inspired (tensor),4,3.0,0.0177,0.0146,0.5833,0.5944,0.011099999999999999,,,,,BEST: optimal balance between domain alignment and class separability
