@@ -18,7 +18,11 @@ from src.branch2_tensor.uda_tfl_inspired import (
     transform_uda_tfl_inspired,
 )
 from src.visualization.tsne_comparison import plot_comparison
+import os
+import matplotlib.pyplot as plt
 
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 def run_branch2_experiment(n_components=4, n_neighbors=3):
@@ -205,6 +209,59 @@ def run_branch2_experiment(n_components=4, n_neighbors=3):
         n_neighbors=n_neighbors,
     )
 
+        # ===== CONFUSION MATRIX: CORAL vs UDA-TFL =====
+
+    os.makedirs("results/figures", exist_ok=True)
+
+    # CORAL predictions
+    coral_clf = KNeighborsClassifier(n_neighbors=n_neighbors)
+    coral_clf.fit(Xs_train_adapted, ys_train)
+    y_pred_coral = coral_clf.predict(Xt_test_flat)
+
+    # UDA-TFL predictions
+    uda_clf = KNeighborsClassifier(n_neighbors=n_neighbors)
+    uda_clf.fit(Xs_uda_flat, ys_train)
+    y_pred_uda = uda_clf.predict(Xt_uda_test_flat)
+
+    labels = sorted(set(yt_test))
+
+    cm_coral = confusion_matrix(yt_test, y_pred_coral, labels=labels)
+    cm_uda = confusion_matrix(yt_test, y_pred_uda, labels=labels)
+
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+    disp_coral = ConfusionMatrixDisplay(
+        confusion_matrix=cm_coral,
+        display_labels=labels,
+    )
+    disp_coral.plot(
+        ax=axes[0],
+        cmap="Blues",
+        colorbar=False,
+        values_format="d",
+    )
+    axes[0].set_title("Branch2 + CORAL")
+
+    disp_uda = ConfusionMatrixDisplay(
+        confusion_matrix=cm_uda,
+        display_labels=labels,
+    )
+    disp_uda.plot(
+        ax=axes[1],
+        cmap="Blues",
+        colorbar=False,
+        values_format="d",
+    )
+    axes[1].set_title("UDA-TFL-inspired")
+
+    plt.suptitle("Confusion Matrix Comparison: CORAL vs UDA-TFL")
+    plt.tight_layout()
+
+    output_path = "results/figures/branch2_confusion_coral_vs_uda.png"
+    plt.savefig(output_path, dpi=300, bbox_inches="tight")
+    plt.close()
+
+    print(f"Branch2 CORAL vs UDA-TFL confusion matrix saved to: {output_path}")
 
         # === UDA-TFL t-SNE ===
 
